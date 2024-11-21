@@ -30,3 +30,25 @@ keymap.set("n", "<leader>tx", "<cmd>tabclose<CR>", { desc = "Close current tab" 
 keymap.set("n", "<leader>tn", "<cmd>tabn<CR>", { desc = "Go to next tab" }) --  go to next tab
 keymap.set("n", "<leader>tp", "<cmd>tabp<CR>", { desc = "Go to previous tab" }) --  go to previous tab
 keymap.set("n", "<leader>tf", "<cmd>tabnew %<CR>", { desc = "Open current buffer in new tab" }) --  move current buffer to new tab
+
+-- Virtual text (linting/errors, etc)
+keymap.set(
+  "n",
+  "<leader>ls",
+  "<cmd>lua vim.diagnostic.config({virtual_text=true})<CR>",
+  { desc = "Enable virtual text (linting, errors, etc)" }
+)
+
+keymap.set(
+  "n",
+  "<leader>lh",
+  "<cmd>lua vim.diagnostic.config({virtual_text=false})<CR>",
+  { desc = "Disable virtual text (linting, errors, etc)" }
+)
+
+-- Disable ESLint LSP server and hide virtual text in Neovim -- Add this to your init.lua or init.vim file
+local isLspDiagnosticsVisible = true
+keymap.set("n", "<leader>lx", function()
+  isLspDiagnosticsVisible = not isLspDiagnosticsVisible
+  vim.diagnostic.config({ virtual_text = isLspDiagnosticsVisible, underline = isLspDiagnosticsVisible })
+end, { desc = "Toggle LSP diagnostics" })
