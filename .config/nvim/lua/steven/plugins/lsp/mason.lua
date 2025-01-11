@@ -53,7 +53,6 @@ return {
         "black", -- python formatter
         "clang-format",
         "rustfmt",
-        "cpplint",
         "eslint_d",
       },
     })
