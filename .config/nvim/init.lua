@@ -1,2 +1,2 @@
-require("steven.core")
-require("steven.lazy")
+require("config.core")
+require("config.lazy")
