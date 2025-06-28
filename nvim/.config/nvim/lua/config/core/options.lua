@@ -24,8 +24,8 @@ vim.schedule(function()
 end)
 
 -- tabs & indentation
-vim.o.tabstop = 4
-vim.o.shiftwidth = 4
+vim.o.tabstop = 2
+vim.o.shiftwidth = 2
 vim.o.expandtab = true
 vim.o.autoindent = true
 
@@ -62,11 +62,11 @@ vim.o.timeoutlen = 300
 
 -- Set how neovim displays whitespace chars in editor
 vim.o.list = true
-vim.opt.listchars = { 
+vim.opt.listchars = {
   tab = "» ",
   trail = "·",
   nbsp = "␣",
-  extends = "▶",  -- Character shown when line extends beyond screen
+  extends = "▶", -- Character shown when line extends beyond screen
   precedes = "◀", -- Character shown when line starts before screen
 }
 
@@ -85,3 +85,25 @@ vim.o.confirm = true
 -- Don't show the mode, since it's already in the status line
 vim.o.showmode = false
 
+-- Configure diagnostic display
+vim.diagnostic.config({
+  virtual_text = {
+    prefix = '●',
+    source = "if_many",
+  },
+  float = {
+    source = true,
+    border = "rounded",
+  },
+  signs = {
+    text = {
+      [vim.diagnostic.severity.ERROR] = "󰅚 ",
+      [vim.diagnostic.severity.WARN] = "󰀪 ",
+      [vim.diagnostic.severity.HINT] = "⚑ ",
+      [vim.diagnostic.severity.INFO] = "󰌶 ",
+    },
+  },
+  underline = true,
+  update_in_insert = false,
+  severity_sort = true,
+})
