@@ -85,6 +85,10 @@ vim.o.confirm = true
 -- Don't show the mode, since it's already in the status line
 vim.o.showmode = false
 
+-- Disable netrw to get rid of neo tree lag when opening
+vim.g.loaded_netrw = 1
+vim.g.loaded_netrwPlugin = 1
+
 -- Configure diagnostic display
 vim.diagnostic.config({
   virtual_text = {

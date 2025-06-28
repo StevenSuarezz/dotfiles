@@ -8,3 +8,11 @@ vim.api.nvim_create_autocmd('TextYankPost', {
     vim.hl.on_yank()
   end,
 })
+
+-- Add this in your config function after the neo-tree setup
+vim.api.nvim_create_autocmd({"BufWritePost", "VimResume", "FocusGained"}, {
+  callback = function()
+    local events = require("neo-tree.events")
+    events.fire_event(events.GIT_EVENT)
+  end,
+})
