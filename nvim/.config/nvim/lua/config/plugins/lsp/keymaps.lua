@@ -30,6 +30,11 @@ function M.setup(bufnr)
   end, opts)
   vim.keymap.set('n', '<leader>e', vim.diagnostic.open_float, opts)
   vim.keymap.set('n', '<leader>q', vim.diagnostic.setloclist, opts)
+
+  -- Inlay Hints
+  vim.keymap.set('n', '<leader>ih', function()
+    vim.lsp.inlay_hint.enable(not vim.lsp.inlay_hint.is_enabled())
+  end, { desc = "Toggle inlay hints" })
 end
 
 return M

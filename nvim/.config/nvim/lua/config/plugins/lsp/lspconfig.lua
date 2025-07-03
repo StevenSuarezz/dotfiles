@@ -102,7 +102,7 @@ return {
       require("config.plugins.lsp.keymaps").setup(bufnr)
       -- Enable inlay hints if supported
       if client.supports_method("textDocument/inlayHint") then
-        vim.lsp.inlay_hint.enable(true, { bufnr = bufnr })
+        vim.lsp.inlay_hint.enable(false, { bufnr = bufnr })
       end
     end
 
