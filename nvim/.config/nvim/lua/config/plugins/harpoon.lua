@@ -22,5 +22,9 @@ return {
     -- Navigate through harpoon list
     vim.keymap.set("n", "<leader>hp", function() harpoon:list():prev() end, { desc = "Harpoon prev file" })
     vim.keymap.set("n", "<leader>hn", function() harpoon:list():next() end, { desc = "Harpoon next file" })
+
+    -- Ufo extension
+    harpoon:extend(require("harpoon.extensions").builtins.command_on_nav('UfoEnableFold'))
+    --require("harpoon"):extend(require("harpoon.extensions").builtins.command_on_nav('UfoEnableFold'))
   end,
 }

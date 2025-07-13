@@ -23,6 +23,12 @@ return {
       properties = { "documentation", "detail", "additionalTextEdits" }
     }
 
+    -- Add folding capability for ufo
+    capabilities.textDocument.foldingRange = {
+      dynamicRegistration = false,
+      lineFoldingOnly = true,
+    }
+
     -- Common on_attach function for keymaps and settings
     local on_attach = function(client, bufnr)
       require("config.plugins.lsp.keymaps").setup(bufnr)
