@@ -44,6 +44,11 @@ return {
     vim.keymap.set('n', '<leader>f.', builtin.oldfiles, { desc = '[F]ind Recent Files ("." for repeat)' })
     vim.keymap.set('n', '<leader><leader>', builtin.buffers, { desc = '[ ] Find existing buffers' })
 
+    -- COLORSCHEME PICKER
+    vim.keymap.set('n', '<leader>fc', function()
+      builtin.colorscheme({ enable_preview = true })
+    end, { desc = '[F]ind [C]olorscheme' })
+
     -- Slightly advanced example of overriding default behavior and theme
     vim.keymap.set('n', '<leader>/', function()
       -- You can pass additional configuration to Telescope to change the theme, layout, etc.
