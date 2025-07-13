@@ -2,6 +2,7 @@ return {
   "neovim/nvim-lspconfig",
   dependencies = {
     "williamboman/mason-lspconfig.nvim",
+    "hrsh7th/cmp-nvim-lsp", -- Still need this for capabilities
     {
       "folke/lazydev.nvim",
       ft = "lua", -- only load on lua files
@@ -11,81 +12,6 @@ return {
           { path = "${3rd}/luv/library", words = { "vim%.uv" } },
         },
       },
-    },
-    {
-      "hrsh7th/nvim-cmp",
-      dependencies = {
-        "hrsh7th/cmp-nvim-lsp",
-        "L3MON4D3/LuaSnip",
-        "saadparwaiz1/cmp_luasnip",
-        "hrsh7th/cmp-buffer",
-        "hrsh7th/cmp-path",
-      },
-      config = function()
-        local cmp = require('cmp')
-        local luasnip = require('luasnip')
-
-        cmp.setup({
-          snippet = {
-            expand = function(args)
-              luasnip.lsp_expand(args.body)
-            end,
-          },
-          window = {
-            completion = cmp.config.window.bordered(),
-            documentation = cmp.config.window.bordered(),
-          },
-          mapping = cmp.mapping.preset.insert({
-            ['<C-b>'] = cmp.mapping.scroll_docs(-4),
-            ['<C-f>'] = cmp.mapping.scroll_docs(4),
-            ['<C-Space>'] = cmp.mapping.complete(),
-            ['<C-e>'] = cmp.mapping.abort(),
-            ['<CR>'] = cmp.mapping.confirm({
-              behavior = cmp.ConfirmBehavior.Replace,
-              select = true
-            }),
-            ['<Tab>'] = cmp.mapping(function(fallback)
-              if cmp.visible() then
-                cmp.select_next_item()
-              elseif luasnip.expand_or_jumpable() then
-                luasnip.expand_or_jump()
-              else
-                fallback()
-              end
-            end, { 'i', 's' }),
-            ['<S-Tab>'] = cmp.mapping(function(fallback)
-              if cmp.visible() then
-                cmp.select_prev_item()
-              elseif luasnip.jumpable(-1) then
-                luasnip.jump(-1)
-              else
-                fallback()
-              end
-            end, { 'i', 's' }),
-          }),
-          sources = cmp.config.sources({
-            { name = 'lazydev', group_index = 0 }, -- For Lua development
-            { name = 'nvim_lsp' },
-            { name = 'luasnip' },
-          }, {
-            { name = 'buffer' },
-            { name = 'path' },
-          }),
-          formatting = {
-            format = function(entry, vim_item)
-              -- Add source name to completion items
-              vim_item.menu = ({
-                nvim_lsp = "[LSP]",
-                luasnip = "[Snippet]",
-                buffer = "[Buffer]",
-                path = "[Path]",
-                lazydev = "[LazyDev]",
-              })[entry.source.name]
-              return vim_item
-            end,
-          },
-        })
-      end
     },
   },
   config = function()
@@ -194,5 +120,28 @@ return {
       },
       automatic_installation = true,
     })
+
+    -- Configure diagnostic display
+    vim.diagnostic.config({
+      virtual_text = {
+        prefix = '●',
+        source = "if_many",
+      },
+      float = {
+        source = true,
+        border = "rounded",
+      },
+      signs = true,
+      underline = true,
+      update_in_insert = false,
+      severity_sort = true,
+    })
+
+    -- Customize diagnostic signs
+    local signs = { Error = "󰅚 ", Warn = "󰀪 ", Hint = "󰌶 ", Info = " " }
+    for type, icon in pairs(signs) do
+      local hl = "DiagnosticSign" .. type
+      vim.fn.sign_define(hl, { text = icon, texthl = hl, numhl = hl })
+    end
   end
 }
